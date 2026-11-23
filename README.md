@@ -1,6 +1,14 @@
 # rookery-director
 
-A judgment engine for people who use several AIs. For each task it decides **which AI** and **how much effort**,
+**AI makes. Machines check. Director decides.**
+
+Agents will do the work. Someone has to judge the agents.
+
+- **Agents are becoming the default.** Each one picks an AI, hands off work, and takes back a result — and nobody checks whether that result is right. Director is that check.
+- **Algorithms and AI complete each other.** A machine check (tests, a linter, an image gate) goes first, costs $0, and wins when it speaks. AI judgment is used only where no machine can measure.
+- **Your ledger compounds.** Once a kind of task is proven, the ledger answers for $0.
+
+A judgment engine for AI agents and the people who run several AIs. For each task it decides **which AI** and **how much effort**,
 **locks a pass prediction before the work runs**, then scores itself when you report the result.
 If the work fails, it escalates one step up; once a kind of task is proven, it answers from your ledger for $0
 and occasionally tries a cheaper AI.
@@ -13,11 +21,13 @@ Site: https://az51826295-sys.github.io/rookery-director/
 claude mcp add rookery-director -- npx rookery-director
 ```
 
-Tools: `director_decide` · `director_record` · `director_scorecard`.
+Tools: `director_decide` · `director_record` · `director_check` · `director_scorecard`.
+
+**`director_check` (0.3.0): accept a result, or escalate?** Pass the decision id, the working AI's own confidence, and — if you ran one — a machine check (tests, a linter, an image-similarity gate). A machine verdict wins and costs $0. Otherwise the confidence is compared to a threshold calibrated on *your* ledger, because AIs report confidence higher than they hit. In our test ("same painter?" on 45 held-out public painting pairs, one run): machine gate first + calibrated confidence + escalation scored 93.3% vs. 91.1% for the expensive AI alone, at 31% of its cost.
 Env: `OPENAI_API_KEY` (the judge), `DIRECTOR_BRAIN` (default `gpt-5.6-luna`), `DIRECTOR_HOME`, `DIRECTOR_PRESET` (`claude-code` | `openai`).
 
 ## Pricing
 
-Free: 100 decisions per month (recording results and the scorecard are always free).
+Free: 100 decisions per month (recording results, checks and the scorecard are always free).
 Pro: $9/month, unlimited — put the license key you receive in `ROOKERY_LICENSE`.
 Buy Pro: https://buy.polar.sh/polar_cl_cuSeGkTUEXDjdTS7a6wtjl6vndt1wWB0spc771qTnXV
